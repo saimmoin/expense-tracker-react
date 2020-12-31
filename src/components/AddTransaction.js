@@ -5,7 +5,12 @@ export const AddTransaction = () => {
   const [text1, setText1] = useState("");
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(0);
-  const { addTransaction } = useContext(GlobalContext);
+  const { addTransaction, transactions } = useContext(GlobalContext);
+
+  function updateLocalStorage() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -22,6 +27,7 @@ export const AddTransaction = () => {
       setText1("");
       setText("");
       setAmount("");
+      updateLocalStorage();
       alert("Transaction Added Successfully");
     }
   };

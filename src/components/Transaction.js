@@ -2,8 +2,13 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 export const Transaction = ({ transaction }) => {
-  const { deleteTransaction } = useContext(GlobalContext);
+  const { deleteTransaction, transactions } = useContext(GlobalContext);
   const sign = transaction.amount < 0 ? "-" : "+";
+
+  function updateLocalStorage() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }
+
   return (
     <li className={transaction.amount < 0 ? "minus" : "plus"}>
       <b>{transaction.text}</b> (by: {transaction.text1})
@@ -15,7 +20,8 @@ export const Transaction = ({ transaction }) => {
         className="delete-btn"
         onClick={() =>
           window.confirm("Are you sure you want to delete the transaction?") &&
-          deleteTransaction(transaction.id)
+          deleteTransaction(transaction.id) &&
+          updateLocalStorage()
         }
       >
         x
